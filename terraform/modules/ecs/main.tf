@@ -24,6 +24,7 @@ resource "aws_ecs_task_definition" "this" {
             { name = "HOST", value = "0.0.0.0" },
             { name = "PORT", value = "1337" },
             { name = "NODE_ENV", value = "production" },
+
             { name = "DATABASE_CLIENT", value = "postgres" },
             { name = "DATABASE_HOST", value = var.db_endpoint },
             { name = "DATABASE_PORT", value = "5432" },
@@ -32,8 +33,21 @@ resource "aws_ecs_task_definition" "this" {
             { name = "DATABASE_PASSWORD", value = var.db_password },
             { name = "DATABASE_SSL", value = "true" },
             { name = "DATABASE_SSL_REJECT_UNAUTHORIZED", value = "false" },
+
+            { name = "APP_KEYS", value = var.app_keys },
+            { name = "API_TOKEN_SALT", value = var.api_token_salt },
+            { name = "ADMIN_JWT_SECRET", value = var.admin_jwt_secret },
+            { name = "JWT_SECRET", value = var.jwt_secret }
         ]
-    }
+        logConfiguration = {
+          logDriver = "awslogs"
+          options = {
+            awslogs-group         = "/ecs/${var.project_name}"
+            awslogs-region        = "us-east-1"
+            awslogs-stream-prefix = "ecs"
+          }
+        }
+      }
   ])
 }
 

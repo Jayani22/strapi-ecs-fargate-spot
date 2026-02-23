@@ -38,3 +38,19 @@ variable "db_password" {
   type      = string
   sensitive = true
 }
+
+variable "app_keys" {
+
+}
+
+variable "api_token_salt" {
+
+}
+
+variable "admin_jwt_secret" {
+
+}
+
+variable "jwt_secret" {
+  
+}

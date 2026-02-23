@@ -1,18 +1,18 @@
 module "security" {
-    source       = "./modules/security"
-    project_name = var.project_name
-    vpc_id       = data.aws_vpc.default.id
+  source       = "./modules/security"
+  project_name = var.project_name
+  vpc_id       = data.aws_vpc.default.id
 }
 
 module "rds" {
-    source        = "./modules/rds"
-    project_name  = var.project_name
+  source        = "./modules/rds"
+  project_name  = var.project_name
 
-    db_username   = var.db_username
-    db_password   = var.db_password
+  db_username   = var.db_username
+  db_password   = var.db_password
 
-    subnet_ids    = data.aws_subnets.default.ids
-    rds_sg_id     = module.security.rds_sg_id
+  subnet_ids    = data.aws_subnets.default.ids
+  rds_sg_id     = module.security.rds_sg_id
 }
 
 module "alb" {
@@ -39,4 +39,9 @@ module "ecs" {
   db_port     = module.rds.db_port
   db_username = var.db_username
   db_password = var.db_password
+
+  app_keys          = local.app_keys
+  api_token_salt    = random_password.api_token_salt.result
+  admin_jwt_secret  = random_password.admin_jwt_secret.result
+  jwt_secret        = random_password.jwt_secret.result
 }
