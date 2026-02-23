@@ -21,6 +21,9 @@ resource "aws_ecs_task_definition" "this" {
         }]
 
         environment = [ 
+            { name = "HOST", value = "0.0.0.0" },
+            { name = "PORT", value = "1337" },
+            { name = "NODE_ENV", value = "production" }
             { name = "DATABASE_CLIENT", value = "postgres" },
             { name = "DATABASE_HOST", value = var.db_endpoint },
             { name = "DATABASE_PORT", value = "5432" },
